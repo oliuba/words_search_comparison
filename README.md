@@ -11,10 +11,10 @@ This program allows to compare the search of 10,000 random words in:
 - a balanced binary tree.
 
 The result of the comparison on a file with 11k words gives the results:
-__The slowest way is the search in an ordered binary tree__.
-__The search in a list is faster.__
-__The search in a disordered binary tree is much faster.__
-__The search in a balanced tree is the fastest.__
+> The slowest way is the search in an ordered binary tree.
+> The search in a list is faster.
+> The search in a disordered binary tree is much faster.
+> The search in a balanced tree is the fastest.
 
 The program shows the time tiken for each search method and the number of words (10,000)
 to demonstrate that they appear in every case.
