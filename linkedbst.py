@@ -5,7 +5,6 @@ This module contains class LinkedBST, which implements Binary Search Tree.
 There is comparison of different methods of searching the words.
 """
 
-from random import shuffle
 from time import time
 from math import log
 from abstractcollection import AbstractCollection
@@ -425,10 +424,10 @@ class LinkedBST(AbstractCollection):
         print(f'List search took {lst_sec} seconds.')
         order_tree_sec = round(self.order_tree_search(words, random_words), 5)
         print(f'Ordered tree search took {order_tree_sec} seconds.')
-        disord_tree_sec = round(self.disorder_tree_search(words, random_words), 5)
-        print(f'Disordered tree search took {disord_tree_sec} seconds.')
         bal_tree_sec = round(self.balanced_tree_search(random_words), 5)
         print(f'Balanced tree search took {bal_tree_sec} seconds.')
+        disord_tree_sec = round(self.disorder_tree_search(words, random_words), 5)
+        print(f'Disordered tree search took {disord_tree_sec} seconds.')
 
 
 if __name__ == "__main__":
