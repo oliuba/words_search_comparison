@@ -5,6 +5,7 @@ This module contains class LinkedBST, which implements Binary Search Tree.
 There is comparison of different methods of searching the words.
 """
 
+from random import shuffle
 from time import time
 from math import log
 from abstractcollection import AbstractCollection
@@ -54,16 +55,14 @@ class LinkedBST(AbstractCollection):
     def inorder(self):
         """Supports an inorder traversal on a view of self."""
         lyst = list()
-        stack = LinkedStack()
-        node = self._root
-        while node is not None or not stack.isEmpty():
+
+        def recurse(node):
             if node is not None:
-                stack.push(node)
-                node = node.left
-            else:
-                item = stack.pop()
-                lyst.append(item.data)
-                node = item.right
+                recurse(node.left)
+                lyst.append(node.data)
+                recurse(node.right)
+
+        recurse(self._root)
         return iter(lyst)
 
 
@@ -277,22 +276,17 @@ class LinkedBST(AbstractCollection):
         '''
         sorted_tree = list(self.inorder())
         self.clear()
-        stack = LinkedStack()
-        center_pos = int(len(sorted_tree) / 2)
-        self.add(sorted_tree.pop(center_pos))
-        left = sorted_tree[:center_pos]
-        right = sorted_tree[center_pos:]
-        stack.push(left)
-        stack.push(right)
-        while not stack.isEmpty():
-            elems = stack.pop()
-            if len(elems) > 0:
-                center_pos = int(len(elems) / 2)
-                self.add(elems.pop(center_pos))
-                left = elems[:center_pos]
-                right = elems[center_pos:]
-                stack.push(left)
-                stack.push(right)
+
+        def recurse(lst):
+            if lst:
+                center_pos = int(len(lst) / 2)
+                self.add(lst.pop(center_pos))
+                right = lst[:center_pos]
+                left = lst[center_pos:]
+                recurse(right)
+                recurse(left)
+
+        recurse(sorted_tree)
 
 
     def successor(self, item):
@@ -386,8 +380,8 @@ class LinkedBST(AbstractCollection):
         """Returns time of search of 10,000 words in the binary search tree,
         the elements of which were added without order (randomly)."""
         self.clear()
-        words_set = set(words)
-        for word in words_set:
+        shuffle(words)
+        for word in words:
             self.add(word)
         start = time()
         found = 0
@@ -424,12 +418,12 @@ class LinkedBST(AbstractCollection):
         print(f'List search took {lst_sec} seconds.')
         order_tree_sec = round(self.order_tree_search(words, random_words), 5)
         print(f'Ordered tree search took {order_tree_sec} seconds.')
-        bal_tree_sec = round(self.balanced_tree_search(random_words), 5)
-        print(f'Balanced tree search took {bal_tree_sec} seconds.')
         disord_tree_sec = round(self.disorder_tree_search(words, random_words), 5)
         print(f'Disordered tree search took {disord_tree_sec} seconds.')
+        bal_tree_sec = round(self.balanced_tree_search(random_words), 5)
+        print(f'Balanced tree search took {bal_tree_sec} seconds.')
 
 
 if __name__ == "__main__":
     tree = LinkedBST()
-    tree.demo_bst('words.txt')
+    tree.demo_bst('w.txt')
